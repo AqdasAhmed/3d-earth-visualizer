@@ -1,11 +1,12 @@
 import type { NextConfig } from "next";
 
+const repo = "3d-earth-visualizer";
+
 const nextConfig: NextConfig = {
-  /* config options here */
-  reactCompiler: true,
   output: "export",
-  basePath: "/3d-earth-visualizer",
-  assetPrefix: "/3d-earth-visualizer/",
+  basePath: `/${repo}`,
+  assetPrefix: `/${repo}/`,
+  trailingSlash: true,
 };
 
 export default nextConfig;
