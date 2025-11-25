@@ -1,14 +1,24 @@
-import type { NextConfig } from "next";
-
-const repo = "3d-earth-visualizer";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   output: "export",
-  distDir: "out",
-  basePath: `/${repo}`,
-  assetPrefix: `/${repo}/`,
-  images: { unoptimized: true },
-  trailingSlash: true,
+
+  // GitHub Pages base folder
+  basePath: "/3d-earth-visualizer",
+
+  assetPrefix: "/3d-earth-visualizer/",
+
+  // MUST disable Turbopack + React Compiler for export to work correctly
+  experimental: {
+    reactCompiler: false,
+    turbo: {
+      resolveAlias: {},
+    },
+  },
+
+  // Fix images and assets during export
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;
