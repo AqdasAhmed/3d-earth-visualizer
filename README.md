@@ -195,11 +195,7 @@ src/
 ### 👤 Author
 
 **Aqdas Ahmed**
-<<<<<<< HEAD
 
 GitHub: [https://github.com/AqdasAhmed](URL)
 
-=======
-GitHub: [https://github.com/AqdasAhmed](URL)
->>>>>>> d7d4522706c573432b0d0d3c94d64e9362bc01f7
 Live Link: [https://3d-earth-visualizer.vercel.app/](URL)
