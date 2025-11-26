@@ -1,88 +1,76 @@
 "use client";
 
-export default function Legend() {
-  const itemStyle: React.CSSProperties = {
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    marginBottom: "6px",
-  };
-
-  const marker = (color: string, shape: "sphere" | "box") => (
-    <div
-      style={{
-        width: 14,
-        height: 14,
-        borderRadius: shape === "sphere" ? "50%" : "3px",
-        background: color,
-      }}
-    />
-  );
-
+export default function Legend({ open }: { open: boolean }) {
   return (
     <div
       style={{
         position: "absolute",
-        top: 20,
-        left: 20,
-        padding: "12px 16px",
-        background: "rgba(0,0,0,0.6)",
+        top: 0,
+        left: open ? 0 : -260,
+        height: "100vh",
+        width: 240,
+        padding: "20px 18px",
+        background: "rgba(0,0,0,0.75)",
         color: "white",
-        borderRadius: 10,
-        fontSize: 13,
-        backdropFilter: "blur(6px)",
-        zIndex: 10,
-        userSelect: "none",
+        backdropFilter: "blur(8px)",
+        transition: "left 0.35s ease",
+        zIndex: 1500,
+        overflowY: "auto",
       }}
     >
-      <div style={{ marginBottom: 8, fontWeight: "bold", fontSize: 14 }}>
-        Legend
+      <h3 style={{ marginBottom: 10 }}>Legend</h3>
+
+      <div style={{ marginBottom: 6 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ width: 14, height: 14, borderRadius: "50%", background: "orange" }}></div>
+          AWS Exchange
+        </div>
       </div>
 
-      {/* Exchanges */}
-      <div style={itemStyle}>
-        {marker("orange", "sphere")}
-        <span>AWS Exchange</span>
-      </div>
-      <div style={itemStyle}>
-        {marker("blue", "sphere")}
-        <span>GCP Exchange</span>
-      </div>
-      <div style={itemStyle}>
-        {marker("purple", "sphere")}
-        <span>Azure Exchange</span>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ width: 14, height: 14, borderRadius: "50%", background: "blue" }}></div>
+        GCP Exchange
       </div>
 
-      <hr style={{ margin: "8px 0", opacity: 0.3 }} />
-
-      {/* Cloud Regions */}
-      <div style={itemStyle}>
-        {marker("orange", "box")}
-        <span>AWS Cloud Region</span>
-      </div>
-      <div style={itemStyle}>
-        {marker("blue", "box")}
-        <span>GCP Cloud Region</span>
-      </div>
-      <div style={itemStyle}>
-        {marker("purple", "box")}
-        <span>Azure Cloud Region</span>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 6 }}>
+        <div style={{ width: 14, height: 14, borderRadius: "50%", background: "purple" }}></div>
+        Azure Exchange
       </div>
 
-      <hr style={{ margin: "8px 0", opacity: 0.3 }} />
+      <hr style={{ margin: "12px 0", opacity: 0.3 }} />
 
-      {/* Latency line colors */}
-      <div style={itemStyle}>
-        <div style={{ width: 20, height: 4, background: "lime" }}></div>
-        <span>Low Latency (&lt; 40ms)</span>
+      {/* Regions */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ width: 14, height: 14, background: "orange", borderRadius: 3 }}></div>
+        AWS Region
       </div>
-      <div style={itemStyle}>
-        <div style={{ width: 20, height: 4, background: "yellow" }}></div>
-        <span>Medium Latency (&lt; 80ms)</span>
+
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 6 }}>
+        <div style={{ width: 14, height: 14, background: "blue", borderRadius: 3 }}></div>
+        GCP Region
       </div>
-      <div style={itemStyle}>
-        <div style={{ width: 20, height: 4, background: "red" }}></div>
-        <span>High Latency (&gt; 80ms)</span>
+
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 6 }}>
+        <div style={{ width: 14, height: 14, background: "purple", borderRadius: 3 }}></div>
+        Azure Region
+      </div>
+
+      <hr style={{ margin: "12px 0", opacity: 0.3 }} />
+
+      {/* Latency */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ width: 22, height: 4, background: "lime" }}></div>
+        Low Latency
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 6 }}>
+        <div style={{ width: 22, height: 4, background: "yellow" }}></div>
+        Medium Latency
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 6 }}>
+        <div style={{ width: 22, height: 4, background: "red" }}></div>
+        High Latency
       </div>
     </div>
   );

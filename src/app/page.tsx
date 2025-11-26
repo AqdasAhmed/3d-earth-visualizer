@@ -52,6 +52,8 @@ export default function Home() {
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [selectedPair, setSelectedPair] = useState<any>(null);
   const [availablePairs, setAvailablePairs] = useState<any[]>([]);
+  const [legendOpen, setLegendOpen] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
 
   // Canvas / controls refs
   const controlsRef = useRef<any>(null);
@@ -107,14 +109,51 @@ export default function Home() {
 
   return (
     <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
-      <Legend />
+      <Legend open={legendOpen} />
       <ControlPanel
+        open={panelOpen}
         filters={filters}
         setFilters={setFilters}
         searchQuery=""
         setSearchQuery={() => { }}
         systemMetrics={{ fps: 0, frameTime: 0, heapUsed: 0, heapLimit: 0, markers: 0, arcs: 0 }}
       />
+      {/* Slide toggles */}
+      <button
+        onClick={() => setLegendOpen(x => !x)}
+        style={{
+          position: "absolute",
+          top: 15,
+          left: 15,
+          zIndex: 2000,
+          padding: "8px 10px",
+          background: "rgba(0,0,0,0.6)",
+          color: "white",
+          borderRadius: 6,
+          border: "1px solid rgba(255,255,255,0.3)",
+          backdropFilter: "blur(5px)",
+        }}
+      >
+        Legend
+      </button>
+
+      <button
+        onClick={() => setPanelOpen(x => !x)}
+        style={{
+          position: "absolute",
+          top: 15,
+          right: 15,
+          zIndex: 2000,
+          padding: "8px 10px",
+          background: "rgba(0,0,0,0.6)",
+          color: "white",
+          borderRadius: 6,
+          border: "1px solid rgba(255,255,255,0.3)",
+          backdropFilter: "blur(5px)",
+        }}
+      >
+        Controls
+      </button>
 
       <Canvas
         dpr={dpr}
@@ -218,7 +257,7 @@ export default function Home() {
           zoomSpeed={isMobile ? 0.5 : 0.7}
           maxDistance={6}
           minDistance={1.05}
-          touches={ isMobile ? { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN } : undefined }
+          touches={isMobile ? { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN } : undefined}
           makeDefault
         />
       </Canvas>

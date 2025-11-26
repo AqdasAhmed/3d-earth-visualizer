@@ -2,12 +2,14 @@
 import useSystemMetrics from "@/hooks/useSystemMetrics";
 
 export default function ControlPanel({
+    open,
     filters,
     setFilters,
     searchQuery,
     setSearchQuery,
     systemMetrics,
 }: {
+    open: boolean;
     filters: {
         layers: any;
         latencyRange: any;
@@ -53,19 +55,21 @@ export default function ControlPanel({
 
     return (
         <div
+            className="control-panel"
             style={{
                 position: "absolute",
-                bottom: 20,
-                left: 20,
-                zIndex: 9999,
-                background: "rgba(0,0,0,0.6)",
-                padding: "14px 18px",
-                borderRadius: 10,
-                color: "white",
-                fontSize: 14,
+                top: 0,
+                right: open ? 0 : -260,
+                height: "100vh",
                 width: 240,
-                backdropFilter: "blur(6px)",
-                overflowY: "scroll",
+                padding: "20px 18px",
+                background: "rgba(0,0,0,0.75)",
+                color: "white",
+                borderRadius: "0px 0px 0px 8px",
+                backdropFilter: "blur(8px)",
+                transition: "right 0.35s ease",
+                zIndex: 1500,
+                overflowY: "auto",
                 maxHeight: "50vh",
                 scrollbarColor: "rgba(255,255,255,0.2) transparent",
                 scrollbarWidth: "thin",
