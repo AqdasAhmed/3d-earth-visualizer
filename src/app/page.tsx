@@ -261,10 +261,10 @@ export default function Home() {
           enableZoom={true}
           enableDamping={true}
           dampingFactor={0.12}
-          rotateSpeed={0.45}
-          zoomSpeed={isMobile ? 0.5 : 0.7}
+          rotateSpeed={0.8}
+          zoomSpeed={0.7}
           maxDistance={6}
-          minDistance={1.05}
+          minDistance={1.5}
           touches={isMobile ? { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN } : undefined}
           makeDefault
         />
