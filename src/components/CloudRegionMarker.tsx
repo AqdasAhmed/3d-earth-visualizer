@@ -2,30 +2,15 @@
 
 import { geoToXYZ } from "@/utils/geoToXYZ";
 
-export default function CloudRegionMarker({
-  lat,
-  lon,
-  name,
-  provider,
-}: {
-  lat: number;
-  lon: number;
-  name: string;
-  provider: string;
-  highlight?: boolean;
-}) {
-  const [x, y, z] = geoToXYZ(lat, lon, 1.05);
+export default function CloudRegionMarker({ lat, lon, name, provider, mobile = false }: any) {
+  const [x, y, z] = geoToXYZ(lat, lon, 1.06);
+  const size = mobile ? 0.01 : 0.007;
 
-  const color =
-    provider === "AWS"
-      ? "orange"
-      : provider === "GCP"
-        ? "blue"
-        : "purple";
+  const color = provider === "AWS" ? "orange" : provider === "GCP" ? "blue" : "purple";
 
   return (
     <mesh position={[x, y, z]}>
-      <boxGeometry args={[0.015, 0.015, 0.015]} />
+      <boxGeometry args={[size, size, size]} />
       <meshStandardMaterial color={color} />
     </mesh>
   );

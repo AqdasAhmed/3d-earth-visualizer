@@ -2,41 +2,20 @@
 
 import { Html } from "@react-three/drei";
 
-interface TooltipItem {
-  name: string;
-  provider?: string;
-  position: [number, number, number];
-  regionCode?: string;
-  serverCount?: number;
-}
-
-export default function Tooltip3D({ item }: { item: TooltipItem | null }) {
+export default function Tooltip3D({ item }: any) {
   if (!item) return null;
-
   return (
-    <Html position={item.position} center>
-      <div
-        style={{
-          background: "rgba(0,0,0,0.75)",
-          padding: "8px 12px",
-          borderRadius: "8px",
-          color: "white",
-          fontSize: "12px",
-          whiteSpace: "nowrap",
-          backdropFilter: "blur(5px)"
-        }}
-      >
-        <b>{item.name}</b><br />
-
-        {item.provider && <span>{item.provider}</span>}<br />
-
-        {item.regionCode && (
-          <span>Region: {item.regionCode}</span>
-        )}<br />
-
-        {item.serverCount !== undefined && (
-          <span>Servers: {item.serverCount.toLocaleString()}</span>
-        )}
+    <Html position={item.position} center style={{ pointerEvents: "none", transform: "translateY(-50%)" }}>
+      <div style={{
+        background: "rgba(0,0,0,0.75)",
+        color: "white",
+        padding: "6px 10px",
+        borderRadius: 6,
+        fontSize: 12,
+      }}>
+        <strong>{item.name}</strong>
+        {item.provider ? <div style={{ opacity: 0.85 }}>{item.provider}</div> : null}
+        {item.regionCode ? <div style={{ opacity: 0.7, fontSize: 11 }}>{item.regionCode}</div> : null}
       </div>
     </Html>
   );

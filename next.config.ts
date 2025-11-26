@@ -4,8 +4,8 @@ const repo = "3d-earth-visualizer";
 
 const nextConfig: NextConfig = {
   output: "export",
-  basePath: `/${repo}`,
-  assetPrefix: `/${repo}/`,
+  // basePath: `/${repo}`,
+  // assetPrefix: `/${repo}/`,
   images: {
     unoptimized: true,
   },
