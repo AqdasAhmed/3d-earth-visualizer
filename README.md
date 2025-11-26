@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌍 3D Earth Visualizer
 
-## Getting Started
+A real-time interactive 3D visualization of global financial exchanges and cloud regions built with Next.js, Three.js, and React Three Fiber. Shows stock exchanges, cloud provider regions, and simulated real-time latency connections on an interactive globe.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Core
+- Interactive 3D Earth (Three.js + R3F)
+- Real-time simulated latency arcs between exchanges and nearest cloud regions
+- Clickable markers for:
+    - Stock Exchanges
+    - AWS, GCP, Azure Cloud Regions
+- Camera auto-focus on clicked markers
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Analytics & Info
+- Historical latency chart panel
+- Tooltip system (HTML-based)
+- System metrics: FPS, frame time, memory, visible markers/arcs
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### UI & UX
+- Control panel with filters:
+    - Toggle cloud providers
+    - Toggle exchanges
+    - Marker visibility
+    - Real-time latency layer
+    - Search (auto-focus result)
+- Legend panel with provider color codes
+- Mobile optimizations:
+    - Reduced globe segments
+    - Lower DPR for GPU efficiency
+    - Fewer arcs, improved touch gestures
+    - Sliding control panel & compact UI
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tech Stack
+- Framework: Next.js 16 (App Router)
+- Language: TypeScript
+- 3D Engine: Three.js
+- React Renderer: React Three Fiber + Drei
+- Charts: Recharts (LatencyPanel)
+- State & Hooks: Custom hooks for latency simulation & system metrics
 
-## Learn More
+## Getting Started (Local)
+1. Clone
+     git clone https://github.com/AqdasAhmed/3d-earth-visualizer.git
+     cd 3d-earth-visualizer
+2. Install (Node.js 18+)
+     npm install
+     # or yarn install / pnpm install / bun install
+3. Run dev server
+     npm run dev
+     Visit: http://localhost:3000
+4. Build & run production
+     npm run build
+     npm run start
 
-To learn more about Next.js, take a look at the following resources:
+Note: The page auto-refreshes on file edits.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure (important files)
+src/
+ ├── app/              # page.tsx (main app)
+ ├── components/       # 3D & UI components
+ ├── hooks/            # custom hooks (metrics, latency, etc.)
+ ├── utils/            # geo & math helpers
+ ├── data/             # exchange + region datasets
+ └── styles/           # global CSS
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Key Components
+- Globe — sphere mesh + textures
+- ExchangeMarker — exchange markers
+- CloudRegionMarker — cloud region markers
+- LatencyConnection — animated arcs
+- CameraRig — smooth camera movements
+- Tooltip3D — HTML tooltip
+- ControlPanel — filter menu
+- Legend — provider color labels
+- LatencyPanel — historical latency chart
 
-## Deploy on Vercel
+## Submission Guidelines (assignment)
+- Provide video demo + code walk-through
+- Include run instructions (above)
+- Submit GitHub repo link
+- Attach resume
+- Document libraries used & assumptions
+- Email to: careers@goquant.io
+    CC: jennifer.carreno@goquant.io
+    Subject: Assignment Title
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Assumptions
+- Latency is simulated (not from API)
+- Globe texture simplified for performance
+- Data updates in intervals (1–1.5s depending on device)
+- Historical latency generated via useLatencyPairs
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Libraries Used
+- three
+- @react-three/fiber
+- @react-three/drei
+- recharts
+- next
+- typescript
+
+## Performance Optimizations
+- Dynamic DPR scaling
+- Reduced globe segments on mobile
+- Limit arcs on smaller devices
+- Memoization for heavy computations
+- Removed Suspense boundaries from 3D pipeline
+
+## Tips & Pointers
+- Tip: Reduce DPR and segments while profiling on low-end devices.
+- Pointer: Use memoized geometry and instancing for many markers.
+- Note: Keep latency simulation decoupled from rendering to avoid frame drops.
+
+## Author
+Aqdas Ahmed  
+GitHub: https://github.com/AqdasAhmed
