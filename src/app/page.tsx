@@ -261,7 +261,7 @@ export default function Home() {
           enableZoom={true}
           enableDamping={true}
           dampingFactor={0.12}
-          rotateSpeed={isMobile ? 0.25 : 0.45}
+          rotateSpeed={0.45}
           zoomSpeed={isMobile ? 0.5 : 0.7}
           maxDistance={6}
           minDistance={1.05}

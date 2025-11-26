@@ -43,7 +43,7 @@ canvas {
   touch-action: none;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 640px) {
   .latency-panel {
     position: fixed;
     left: 0;

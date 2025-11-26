@@ -60,7 +60,7 @@ export default function ControlPanel({
                 position: "absolute",
                 top: 0,
                 right: open ? 0 : -300,  // <-- FIXED
-                height: "100vh",
+                height: "90vh",
                 width: 300,
                 padding: "20px 18px",
                 background: "rgba(0,0,0,0.75)",
