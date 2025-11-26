@@ -21,17 +21,27 @@ import { findNearestCloudRegion } from "@/utils/findNearestCloud";
 import { haversine } from "@/utils/distance";
 import useLatencyPairs from "@/hooks/useLatencyPairs";
 import LatencyPanel from "@/components/LatencyPanel";
+import useSystemMetrics from "@/hooks/useSystemMetrics";
 
 export default function Home() {
   // whether client is mobile (light heuristic)
   const [isMobile, setIsMobile] = useState(false);
+  // latency state (for arcs)
+  const [latencies, setLatencies] = useState<number[]>(exchanges.map(() => 0));
 
-  useEffect(() => {
-    if (typeof navigator !== "undefined") {
-      const mobile = /Mobi|Android|iPhone|iPad/.test(navigator.userAgent);
-      setIsMobile(mobile);
-    }
-  }, []);
+  // selected tooltip/pair
+  const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [selectedPair, setSelectedPair] = useState<any>(null);
+  const [selectedPairId, setSelectedPairId] = useState<string | null>(null);
+  const [availablePairs, setAvailablePairs] = useState<any[]>([]);
+  const [legendOpen, setLegendOpen] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
+
+  const [moveRequest, setMoveRequest] = useState<any>(null);
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [dpr, setDpr] = useState(1);
 
   // UI / filter state (keeps responsive UI simple)
   const [filters, setFilters] = useState({
@@ -43,28 +53,21 @@ export default function Home() {
     exchanges: Object.fromEntries(exchanges.map((e) => [e.name, true])),
   });
 
-  // latency state (for arcs)
-  const [latencies, setLatencies] = useState<number[]>(exchanges.map(() => 0));
-
-  // historical pairs
-  const pairs = useLatencyPairs();
-
-  // selected tooltip/pair
-  const [selectedItem, setSelectedItem] = useState<any>(null);
-  const [selectedPair, setSelectedPair] = useState<any>(null);
-  const [selectedPairId, setSelectedPairId] = useState<string | null>(null);
-  const [availablePairs, setAvailablePairs] = useState<any[]>([]);
-  const [legendOpen, setLegendOpen] = useState(false);
-  const [panelOpen, setPanelOpen] = useState(false);
-
-  // Canvas / controls refs
   const controlsRef = useRef<any>(null);
-  const [moveRequest, setMoveRequest] = useState<any>(null);
 
+  const pairs = useLatencyPairs();
   const latencyData = selectedPairId && pairs[selectedPairId]
     ? pairs[selectedPairId]
     : [];
 
+  const systemMetrics = useSystemMetrics();
+
+  useEffect(() => {
+    if (typeof navigator !== "undefined") {
+      const mobile = /Mobi|Android|iPhone|iPad/.test(navigator.userAgent);
+      setIsMobile(mobile);
+    }
+  }, []);
 
   // simulate realtime latencies (throttled)
   useEffect(() => {
@@ -85,6 +88,40 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [isMobile]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const pixelRatio = window.devicePixelRatio || 1;
+      setDpr(isMobile ? Math.min(1.4, pixelRatio) : Math.min(2, pixelRatio));
+    }
+  }, [isMobile]);
+
+  useEffect(() => {
+    if (!searchQuery.trim()) return;
+
+    const query = searchQuery.toLowerCase();
+
+    // First try matches in exchanges
+    const matchEx = exchanges.find((ex) =>
+      ex.name.toLowerCase().includes(query)
+    );
+
+    if (matchEx) {
+      const pos = geoToXYZ(matchEx.lat, matchEx.lon, 1.06);
+      focusOn(pos[0], pos[1], pos[2]);
+      return;
+    }
+
+    // Otherwise try cloud regions
+    const matchRegion = cloudRegions.find((cr) =>
+      cr.name.toLowerCase().includes(query)
+    );
+
+    if (matchRegion) {
+      const pos = geoToXYZ(matchRegion.lat, matchRegion.lon, 1.06);
+      focusOn(pos[0], pos[1], pos[2]);
+    }
+  }, [searchQuery]);
+
   // focus helper
   const focusOn = (x: number, y: number, z: number) => {
     const n = new THREE.Vector3(x, y, z).normalize();
@@ -104,15 +141,10 @@ export default function Home() {
     return new Set(indexed.slice(0, maxArcs).map((x) => x[0]));
   }, [latencies, maxArcs]);
 
-  // DPR settings (reduce pixel ratio on mobile to save GPU)
-  const [dpr, setDpr] = useState(1);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const pixelRatio = window.devicePixelRatio || 1;
-      setDpr(isMobile ? Math.min(1.4, pixelRatio) : Math.min(2, pixelRatio));
-    }
-  }, [isMobile]);
+  const matchesSearch = (name: string) => {
+    if (!searchQuery.trim()) return true;
+    return name.toLowerCase().includes(searchQuery.toLowerCase());
+  };
 
   return (
     <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
@@ -121,9 +153,13 @@ export default function Home() {
         open={panelOpen}
         filters={filters}
         setFilters={setFilters}
-        searchQuery=""
-        setSearchQuery={() => { }}
-        systemMetrics={{ fps: 0, frameTime: 0, heapUsed: 0, heapLimit: 0, markers: 0, arcs: 0 }}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        systemMetrics={{
+          ...systemMetrics,
+          markers: exchanges.filter((ex) => filters.exchanges[ex.name]).length,
+          arcs: arcIndices.size,
+        }}
       />
       {/* Slide toggles */}
       <button
@@ -181,6 +217,7 @@ export default function Home() {
         {/* Markers */}
         {filters.layers.markers && exchanges
           .filter((ex) => filters.exchanges[ex.name])
+          .filter((ex) => matchesSearch(ex.name))
           .map((ex, i) => {
             // compute position on sphere
             const pos = geoToXYZ(ex.lat, ex.lon, 1.06);
@@ -210,6 +247,7 @@ export default function Home() {
         {/* Cloud region markers */}
         {filters.layers.regions && cloudRegions
           .filter((cr) => filters[cr.provider as "AWS" | "GCP" | "Azure"])
+          .filter((cr) => matchesSearch(cr.name))
           .map((cr) => {
             const pos = geoToXYZ(cr.lat, cr.lon, 1.06);
             return (
@@ -238,21 +276,23 @@ export default function Home() {
           })}
 
         {/* Latency arcs - limited on mobile */}
-        {filters.layers.realtime && exchanges.map((ex, i) => {
-          if (!filters.exchanges[ex.name]) return null;
-          if (!arcIndices.has(i)) return null; // early skip on mobile
-          const nearest = findNearestCloudRegion(ex);
-          if (!nearest) return null;
-          if (!filters[nearest.provider as "AWS" | "GCP" | "Azure"]) return null;
-          const latency = latencies[i];
-          const [min, max] = filters.latencyRange;
-          if (latency < min || latency > max) return null;
+        {filters.layers.realtime && exchanges
+          .filter((ex) => matchesSearch(ex.name))
+          .map((ex, i) => {
+            if (!filters.exchanges[ex.name]) return null;
+            if (!arcIndices.has(i)) return null; // early skip on mobile
+            const nearest = findNearestCloudRegion(ex);
+            if (!nearest) return null;
+            if (!filters[nearest.provider as "AWS" | "GCP" | "Azure"]) return null;
+            const latency = latencies[i];
+            const [min, max] = filters.latencyRange;
+            if (latency < min || latency > max) return null;
 
-          const start = geoToXYZ(ex.lat, ex.lon, 1.03);
-          const end = geoToXYZ(nearest.lat, nearest.lon, 1.03);
+            const start = geoToXYZ(ex.lat, ex.lon, 1.03);
+            const end = geoToXYZ(nearest.lat, nearest.lon, 1.03);
 
-          return <LatencyConnection key={`lat-${i}`} start={start} end={end} latency={latency} mobile={isMobile} />;
-        })}
+            return <LatencyConnection key={`lat-${i}`} start={start} end={end} latency={latency} mobile={isMobile} />;
+          })}
 
         <OrbitControls
           ref={controlsRef}
