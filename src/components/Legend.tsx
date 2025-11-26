@@ -5,9 +5,9 @@ export default function Legend({ open }: { open: boolean }) {
     <div
       style={{
         position: "absolute",
-        top: 0,
+        top: "10vh",
         left: open ? 0 : -260,
-        height: "100vh",
+        height: "90vh",
         width: 240,
         padding: "20px 18px",
         background: "rgba(0,0,0,0.75)",

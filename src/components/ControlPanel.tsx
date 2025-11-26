@@ -58,7 +58,7 @@ export default function ControlPanel({
             className="control-panel"
             style={{
                 position: "absolute",
-                top: 0,
+                top: "10vh",
                 right: open ? 0 : -260,
                 height: "100vh",
                 width: 240,
@@ -69,7 +69,7 @@ export default function ControlPanel({
                 backdropFilter: "blur(8px)",
                 transition: "right 0.35s ease",
                 zIndex: 1500,
-                overflowY: "auto",
+                overflowY: "hidden",
                 maxHeight: "50vh",
                 scrollbarColor: "rgba(255,255,255,0.2) transparent",
                 scrollbarWidth: "thin",
