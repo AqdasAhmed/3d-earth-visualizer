@@ -26,9 +26,10 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
-    const mobile = /Mobi|Android|iPhone|iPad/.test(ua);
-    setIsMobile(mobile);
+    if (typeof navigator !== "undefined") {
+      const mobile = /Mobi|Android|iPhone|iPad/.test(navigator.userAgent);
+      setIsMobile(mobile);
+    }
   }, []);
 
   // UI / filter state (keeps responsive UI simple)
@@ -78,7 +79,7 @@ export default function Home() {
   // focus helper
   const focusOn = (x: number, y: number, z: number) => {
     const n = new THREE.Vector3(x, y, z).normalize();
-    const cam = n.clone().multiplyScalar( isMobile ? 2.6 : 2.2 );
+    const cam = n.clone().multiplyScalar(isMobile ? 2.6 : 2.2);
     setMoveRequest({
       position: [cam.x, cam.y, cam.z],
       target: [x, y, z],
@@ -95,7 +96,14 @@ export default function Home() {
   }, [latencies, maxArcs]);
 
   // DPR settings (reduce pixel ratio on mobile to save GPU)
-  const dpr = isMobile ? Math.min(1.4, window.devicePixelRatio || 1) : Math.min(2, window.devicePixelRatio || 1);
+  const [dpr, setDpr] = useState(1);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const pixelRatio = window.devicePixelRatio || 1;
+      setDpr(isMobile ? Math.min(1.4, pixelRatio) : Math.min(2, pixelRatio));
+    }
+  }, [isMobile]);
 
   return (
     <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
@@ -104,7 +112,7 @@ export default function Home() {
         filters={filters}
         setFilters={setFilters}
         searchQuery=""
-        setSearchQuery={() => {}}
+        setSearchQuery={() => { }}
         systemMetrics={{ fps: 0, frameTime: 0, heapUsed: 0, heapLimit: 0, markers: 0, arcs: 0 }}
       />
 
@@ -208,8 +216,9 @@ export default function Home() {
           dampingFactor={0.12}
           rotateSpeed={isMobile ? 0.25 : 0.45}
           zoomSpeed={isMobile ? 0.5 : 0.7}
-          maxDistance={5}
-          minDistance={1.5}
+          maxDistance={6}
+          minDistance={1.05}
+          touches={ isMobile ? { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN } : undefined }
           makeDefault
         />
       </Canvas>
