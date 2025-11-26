@@ -58,8 +58,8 @@ export default function ControlPanel({
             className="control-panel"
             style={{
                 position: "absolute",
-                top: "10vh",
-                right: open ? 0 : -260,
+                top: 0,
+                right: open ? 0 : -260,  // <-- FIXED
                 height: "100vh",
                 width: 240,
                 padding: "20px 18px",
@@ -69,10 +69,7 @@ export default function ControlPanel({
                 backdropFilter: "blur(8px)",
                 transition: "right 0.35s ease",
                 zIndex: 1500,
-                overflowY: "hidden",
-                maxHeight: "50vh",
-                scrollbarColor: "rgba(255,255,255,0.2) transparent",
-                scrollbarWidth: "thin",
+                overflowY: "auto",
             }}
         >
             <h3 style={{ marginTop: 0, marginBottom: 12 }}>Control Panel</h3>
