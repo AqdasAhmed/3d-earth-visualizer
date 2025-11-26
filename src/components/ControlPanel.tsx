@@ -60,7 +60,7 @@ export default function ControlPanel({
                 position: "absolute",
                 top: 0,
                 right: open ? 0 : -300,  // <-- FIXED
-                height: "90vh",
+                height: "100vh",
                 width: 300,
                 padding: "20px 18px",
                 background: "rgba(0,0,0,0.75)",
@@ -74,7 +74,6 @@ export default function ControlPanel({
                 scrollbarWidth: "thin",
             }}
         >
-            <h3 style={{ marginTop: 0, marginBottom: 12 }}>Control Panel</h3>
 
             {/* ✅ SECTION 1: Cloud Providers */}
             <div style={{ marginBottom: 14 }}>

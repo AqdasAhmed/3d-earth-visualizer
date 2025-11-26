@@ -5,11 +5,11 @@ export default function Legend({ open }: { open: boolean }) {
     <div
       style={{
         position: "absolute",
-        top: 20,
+        top: 0,
         left: open ? 0 : -260,
-        height: "90vh",
+        height: "100vh",
         width: 240,
-        padding: "20px 18px",
+        padding: "70px 25px",
         background: "rgba(0,0,0,0.75)",
         color: "white",
         backdropFilter: "blur(8px)",
@@ -18,8 +18,6 @@ export default function Legend({ open }: { open: boolean }) {
         overflowY: "auto",
       }}
     >
-      <h3 style={{ marginBottom: 10 }}>Legend</h3>
-
       <div style={{ marginBottom: 6 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ width: 14, height: 14, borderRadius: "50%", background: "orange" }}></div>
