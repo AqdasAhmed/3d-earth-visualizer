@@ -154,7 +154,7 @@ src/
 
   CC: jennifer.carreno@goquant.io
 
-- Subject line: Assignment Title
+- Subject line: Lateny Topology Visualizer
 
 ### 📄 Assumptions
 
