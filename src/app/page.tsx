@@ -20,6 +20,7 @@ import { geoToXYZ } from "@/utils/geoToXYZ";
 import { findNearestCloudRegion } from "@/utils/findNearestCloud";
 import { haversine } from "@/utils/distance";
 import useLatencyPairs from "@/hooks/useLatencyPairs";
+import LatencyPanel from "@/components/LatencyPanel";
 
 export default function Home() {
   // whether client is mobile (light heuristic)
@@ -51,6 +52,7 @@ export default function Home() {
   // selected tooltip/pair
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [selectedPair, setSelectedPair] = useState<any>(null);
+  const [selectedPairId, setSelectedPairId] = useState<string | null>(null);
   const [availablePairs, setAvailablePairs] = useState<any[]>([]);
   const [legendOpen, setLegendOpen] = useState(false);
   const [panelOpen, setPanelOpen] = useState(false);
@@ -58,6 +60,11 @@ export default function Home() {
   // Canvas / controls refs
   const controlsRef = useRef<any>(null);
   const [moveRequest, setMoveRequest] = useState<any>(null);
+
+  const latencyData = selectedPairId && pairs[selectedPairId]
+    ? pairs[selectedPairId]
+    : [];
+
 
   // simulate realtime latencies (throttled)
   useEffect(() => {
@@ -191,6 +198,7 @@ export default function Home() {
                     const pm = { pairId, exchange: ex, region: nearest };
                     setAvailablePairs([pm]);
                     setSelectedPair(pm);
+                    setSelectedPairId(pm.pairId);
                   }
                 }}
               >
@@ -260,23 +268,40 @@ export default function Home() {
           touches={isMobile ? { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN } : undefined}
           makeDefault
         />
+        {/* Tooltip */}
+        <Tooltip3D item={selectedItem} />
       </Canvas>
-
-      {/* Tooltip */}
-      <Tooltip3D item={selectedItem} />
 
       {/* Latency panel (floating) */}
       {selectedPair && filters.layers.historical && (
-        <div style={{
-          position: "absolute",
-          bottom: 20,
-          right: isMobile ? 12 : 20,
-          zIndex: 9999,
-          width: isMobile ? "92vw" : 520,
-        }}>
-          {/* Keep your existing LatencyPanel component (not included here) */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 20,
+            right: isMobile ? 12 : 20,
+            zIndex: 9999,
+            width: isMobile ? "92vw" : 520,
+          }}
+        >
+          <LatencyPanel
+            pair={selectedPair}
+            data={latencyData}
+            availablePairs={availablePairs}
+            onSelectPair={(pairId) => {
+              const found = availablePairs.find((p) => p.pairId === pairId);
+              if (found) {
+                setSelectedPair(found);
+                setSelectedPairId(found.pairId);
+              }
+            }}
+            onClose={() => {
+              setSelectedPair(null);
+              setSelectedPairId(null);
+            }}
+          />
         </div>
       )}
+
     </div>
   );
 }

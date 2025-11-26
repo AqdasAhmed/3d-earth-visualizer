@@ -14,7 +14,7 @@ export default function Legend({ open }: { open: boolean }) {
         color: "white",
         backdropFilter: "blur(8px)",
         transition: "left 0.35s ease",
-        zIndex: 1500,
+        zIndex: 2000,
         overflowY: "auto",
       }}
     >
