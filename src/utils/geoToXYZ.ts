@@ -4,7 +4,7 @@ export function geoToXYZ(
   radius = 1.03
 ): [number, number, number] {
   if (lat === undefined || lon === undefined || isNaN(lat) || isNaN(lon)) {
-    console.warn("⚠️ geoToXYZ received invalid coords:", lat, lon);
+    console.warn("geoToXYZ received invalid coords:", lat, lon);
     return [0, 0, 0]; // prevent NaN explosions
   }
   const phi = (90 - lat) * (Math.PI / 180);

@@ -75,7 +75,7 @@ export default function ControlPanel({
             }}
         >
 
-            {/* ✅ SECTION 1: Cloud Providers */}
+            {/* SECTION 1: Cloud Providers */}
             <div style={{ marginBottom: 14 }}>
                 <b style={{ fontSize: 13 }}>Cloud Providers</b>
 
@@ -123,7 +123,7 @@ export default function ControlPanel({
                 </div>
             </div>
 
-            {/* ✅ SECTION 2: Exchanges */}
+            {/* SECTION 2: Exchanges */}
             <div style={{ marginBottom: 14 }}>
                 <b style={{ fontSize: 13 }}>Exchanges</b>
 
@@ -167,7 +167,7 @@ export default function ControlPanel({
             </div>
 
 
-            {/* ✅ SECTION: Latency Range */}
+            {/* SECTION: Latency Range */}
             <div style={{ marginBottom: 14 }}>
                 <b style={{ fontSize: 13 }}>Latency Range</b>
 
@@ -192,7 +192,7 @@ export default function ControlPanel({
                 </div>
             </div>
 
-            {/* ✅ SECTION: Layers */}
+            {/* SECTION: Layers */}
             <div style={{ marginBottom: 14 }}>
                 <b style={{ fontSize: 13 }}>Layers</b>
 
@@ -261,7 +261,7 @@ export default function ControlPanel({
                 </div>
             </div>
 
-            {/* ✅ SECTION: Search */}
+            {/* SECTION: Search */}
             <div style={{ marginBottom: 14 }}>
                 <b style={{ fontSize: 13 }}>Search</b>
                 <input
@@ -282,7 +282,7 @@ export default function ControlPanel({
                 />
             </div>
 
-            {/* ✅ SECTION: System Metrics */}
+            {/* SECTION: System Metrics */}
             <div style={{ marginBottom: 8 }}>
                 <b style={{ fontSize: 13 }}>System Metrics</b>
 
