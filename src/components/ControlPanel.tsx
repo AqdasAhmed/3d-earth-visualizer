@@ -58,36 +58,22 @@ export default function ControlPanel({
             className="control-panel"
             style={{
                 position: "absolute",
-                zIndex: 1500,
-                background: "rgba(0,0,0,0.75)",
-                backdropFilter: "blur(8px)",
-                color: "white",
-                width: 240,
-                padding: "20px 18px",
-                borderRadius: "8px 0 0 8px",
-                overflowY: "auto",
-                transition: "all 0.35s ease",
-
-                // Desktop slide from right
-                right: open ? 0 : -260,
                 top: 0,
+                right: open ? 0 : -300,  // <-- FIXED
                 height: "100vh",
-
-                // Mobile slide from bottom
-                ...(typeof window !== "undefined" && window.innerWidth <= 640
-                    ? {
-                        left: 0,
-                        right: 0,
-                        width: "100%",
-                        height: "55vh",
-                        top: "auto",
-                        borderRadius: "12px 12px 0 0",
-                        bottom: open ? 0 : "-60vh",
-                    }
-                    : {})
+                width: 300,
+                padding: "20px 18px",
+                background: "rgba(0,0,0,0.75)",
+                color: "white",
+                borderRadius: "0px 0px 0px 8px",
+                backdropFilter: "blur(8px)",
+                transition: "right 0.35s ease",
+                zIndex: 2000,
+                overflowY: "auto",
+                scrollbarColor: "rgba(255,255,255,0.3) transparent",
+                scrollbarWidth: "thin",
             }}
         >
-
             <h3 style={{ marginTop: 0, marginBottom: 12 }}>Control Panel</h3>
 
             {/* ✅ SECTION 1: Cloud Providers */}

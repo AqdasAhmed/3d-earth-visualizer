@@ -38,19 +38,21 @@ export default function LatencyPanel({
         : 0;
 
     return (
-        <div style={{
-            position: "fixed",                        
-            border: "1px solid rgba(255,255,255,0.3)",
-            background: "rgba(0,0,0,0.4)",
-            color: "white",
-            padding: 16,
-            width: 600,
-            borderRadius: 8,
-            boxSizing: "border-box",
-            bottom: 20,
-            right: 20,
-            zIndex: 1500,
-        }}>
+        <div
+            className={`latency-panel ${!pair ? "closed" : ""}`}
+            style={{
+                position: "fixed",
+                border: "1px solid rgba(255,255,255,0.3)",
+                background: "rgba(0,0,0,0.4)",
+                color: "white",
+                padding: 16,
+                width: 600,
+                borderRadius: 8,
+                boxSizing: "border-box",
+                bottom: 20,
+                right: 20,
+                zIndex: 1500,
+            }}>
             {/* Close button */}
             <button
                 onClick={onClose}
