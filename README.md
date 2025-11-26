@@ -195,6 +195,7 @@ src/
 ### 👤 Author
 
 **Aqdas Ahmed**
+
 GitHub: https://github.com/AqdasAhmed
 
 Live Link: https://3d-earth-visualizer.vercel.app/
