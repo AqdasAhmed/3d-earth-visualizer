@@ -1,18 +1,15 @@
 import type { NextConfig } from "next";
 
+const repo = "3d-earth-visualizer";
+
 const nextConfig: NextConfig = {
   output: "export",
-
-  // Required for GitHub Pages
-  basePath: "/3d-earth-visualizer",
-  assetPrefix: "/3d-earth-visualizer/",
-
+  basePath: `/${repo}`,
+  assetPrefix: `/${repo}/`,
   images: {
     unoptimized: true,
   },
-
-  // Disable the React compiler (optional but reduces issues)
-  reactCompiler: false
+  trailingSlash: true,
 };
 
 export default nextConfig;
